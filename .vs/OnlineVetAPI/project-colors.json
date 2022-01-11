@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "463d3e5f-c037-4d31-866d-f2c4ee8d13e9": {
+      "ProjectGuid": "463d3e5f-c037-4d31-866d-f2c4ee8d13e9",
+      "DisplayName": "OnlineVetAPI",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 1
+}

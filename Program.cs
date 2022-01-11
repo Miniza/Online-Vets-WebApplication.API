@@ -1,0 +1,40 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using OnlineVetAPI.DataModels;
+using OnlineVetAPI.Repositories;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DevConnection");
+builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddScoped<IAppRepository, AppRepository>();
+
+builder.Services.AddCors();
+
+builder.Services.AddControllers().AddNewtonsoftJson(options=>
+options.SerializerSettings.ReferenceLoopHandling= Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+app.UseCors(options =>
+options.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
