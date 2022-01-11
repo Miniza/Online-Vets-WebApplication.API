@@ -28,21 +28,21 @@ namespace OnlineVetAPI.Controllers
             return Ok(mapper.Map<IEnumerable<Pet>>(pets));
             
         }
-        /*
+        
         // GET: api/Pets/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Pet>> GetPet(int id)
         {
-            var pet = await _context.Pet.FindAsync(id);
+            var pet = await appRepository.GetPetAsync(id);
 
             if (pet == null)
             {
                 return NotFound();
             }
 
-            return pet;
+            return Ok(mapper.Map<Pet>(pet));
         }
-
+        /*
         // PUT: api/Pets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -84,26 +84,18 @@ namespace OnlineVetAPI.Controllers
 
             return CreatedAtAction("GetPet", new { id = pet.Id }, pet);
         }
-
+        */
         // DELETE: api/Pets/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePet(int id)
         {
-            var pet = await _context.Pet.FindAsync(id);
+            var pet = await appRepository.RemovePet(id);
             if (pet == null)
             {
                 return NotFound();
             }
-
-            _context.Pet.Remove(pet);
-            await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool PetExists(int id)
-        {
-            return _context.Pet.Any(e => e.Id == id);
-        } */
     }
 }

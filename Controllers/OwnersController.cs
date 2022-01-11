@@ -27,19 +27,18 @@ namespace OnlineVetAPI.Controllers
             return Ok(mapper.Map<IEnumerable<Owner>>(owners));
         }
 
-       /* // GET: api/Owners/5
+        // GET: api/Owners/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Owner>> GetOwner(Guid id)
+        public async Task<ActionResult<Owner>> GetOwner(int Id)
         {
-            var owner = await _context.Owner.FindAsync(id);
-
+            var owner = await appRepository.GetOwnerAsync(Id);
             if (owner == null)
             {
                 return NotFound();
             }
-
-            return owner;
+            return Ok(mapper.Map<Owner>(owner)); 
         }
+        /*
 
         // PUT: api/Owners/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -81,27 +80,20 @@ namespace OnlineVetAPI.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetOwner", new { id = owner.Id }, owner);
-        }
+        } */
 
         // DELETE: api/Owners/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOwner(Guid id)
+        public async Task<IActionResult> DeleteOwner(int id)
         {
-            var owner = await _context.Owner.FindAsync(id);
+            var owner = await appRepository.RemoveOwner(id);
             if (owner == null)
             {
                 return NotFound();
             }
 
-            _context.Owner.Remove(owner);
-            await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool OwnerExists(Guid id)
-        {
-            return _context.Owner.Any(e => e.Id == id);
-        } */
     }
 }
