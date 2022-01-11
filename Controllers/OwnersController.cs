@@ -69,18 +69,15 @@ namespace OnlineVetAPI.Controllers
             }
 
             return NoContent();
-        }
+        } */
 
         // POST: api/Owners
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Owner>> PostOwner(Owner owner)
+        public async Task<ActionResult<Owner>> PostOwner([FromBody] AddNewOwner  request)
         {
-            _context.Owner.Add(owner);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOwner", new { id = owner.Id }, owner);
-        } */
+          
+        } 
 
         // DELETE: api/Owners/5
         [HttpDelete("{id}")]

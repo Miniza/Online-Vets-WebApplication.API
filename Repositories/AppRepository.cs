@@ -12,6 +12,13 @@ namespace OnlineVetAPI.Repositories
             this.context = context;
         }
 
+        public async Task<Owner> AddOwner(Owner request)
+        {
+            var owner = await context.Owners.AddAsync(request);
+            await context.SaveChangesAsync();
+            return owner.Entity;
+        }
+
         public async Task<Owner> GetOwnerAsync(int Id)
         {
             return await context.Owners.Include(b => b.Pets).FirstOrDefaultAsync(x=>x.Id == Id);
