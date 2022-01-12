@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using OnlineVetAPI.DomainModels;
 using OnlineVetAPI.Repositories;
 
@@ -38,46 +37,33 @@ namespace OnlineVetAPI.Controllers
             }
             return Ok(mapper.Map<Owner>(owner)); 
         }
-        /*
-
+       
+        
         // PUT: api/Owners/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOwner(Guid id, Owner owner)
+        public async Task<IActionResult> PutOwner(int id, [FromBody] UpdateOwner request)
         {
-            if (id != owner.Id)
+            if (await appRepository.Exists(id))
             {
-                return BadRequest();
-            }
-
-            _context.Entry(owner).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OwnerExists(id))
+               var updatedOwner = await appRepository.UpdateOwner(id, mapper.Map<DataModels.Owner>(request));
+                if (updatedOwner != null)
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
+                    return Ok(mapper.Map<Owner>(updatedOwner));
                 }
             }
-
-            return NoContent();
-        } */
-
+                return NotFound();
+        } 
+        
         // POST: api/Owners
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+       [HttpPost]
         public async Task<ActionResult<Owner>> PostOwner([FromBody] AddNewOwner  request)
         {
-          
+            var newOwner = await appRepository.AddOwner(mapper.Map<DataModels.Owner>(request));
+            return Ok(mapper.Map<Owner>(newOwner));
         } 
+       
 
         // DELETE: api/Owners/5
         [HttpDelete("{id}")]

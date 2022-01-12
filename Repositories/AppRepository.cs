@@ -19,6 +19,18 @@ namespace OnlineVetAPI.Repositories
             return owner.Entity;
         }
 
+        public async Task<Pet> AddPet(Pet request)
+        {
+            var pet = await context.Pets.AddAsync(request);
+            await context.SaveChangesAsync();
+            return pet.Entity;
+        }
+
+        public async Task<bool> Exists(int Id)
+        {
+           return await context.Owners.AnyAsync(x => x.Id == Id);
+        }
+
         public async Task<Owner> GetOwnerAsync(int Id)
         {
             return await context.Owners.Include(b => b.Pets).FirstOrDefaultAsync(x=>x.Id == Id);
@@ -54,6 +66,37 @@ namespace OnlineVetAPI.Repositories
             context.Pets.Remove(pet);
             await context.SaveChangesAsync();
             return pet;
+        }
+
+        public async Task<Owner> UpdateOwner(int Id, Owner request)
+        {
+            var existingOwner = await context.Owners.FindAsync(Id);
+           if (existingOwner != null)
+            {
+                existingOwner.FirstName = request.FirstName;
+                existingOwner.LastName = request.LastName;
+                existingOwner.MobileNumber = request.MobileNumber;
+                existingOwner.OwnerEmail = request.OwnerEmail;
+                existingOwner.Address = request.Address;
+                await context.SaveChangesAsync();
+                return existingOwner;
+            }
+            return null;
+        }
+
+        public async Task<Pet> UpdatePet(int Id, Pet request)
+        {
+            var existingPet = await context.Pets.FindAsync(Id);
+            if (existingPet != null)
+            {
+                existingPet.PetName = request.PetName;
+                existingPet.PetType = request.PetType;
+                existingPet.PetBreed = request.PetBreed;
+                existingPet.DateOfBirth = request.DateOfBirth;
+                await context.SaveChangesAsync();
+                return existingPet;
+            }
+            return null; 
         }
     }
 }

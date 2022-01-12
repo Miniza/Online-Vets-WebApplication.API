@@ -9,6 +9,10 @@ namespace OnlineVetAPI.Profiles
         {
             CreateMap<DataModels.Owner, Owner>().ReverseMap();
             CreateMap<DataModels.Pet, Pet>().ReverseMap();
+            CreateMap<UpdateOwner, DataModels.Owner>();
+            CreateMap<UpdatePet, DataModels.Pet>();
+            CreateMap<AddNewOwner, DataModels.Owner>();
+            CreateMap<AddNewPet, DataModels.Pet>();
         }
     }
 }

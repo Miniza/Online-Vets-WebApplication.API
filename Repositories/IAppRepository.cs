@@ -11,6 +11,10 @@ namespace OnlineVetAPI.Repositories
         public Task<Owner> AddOwner(Owner request);
         public Task<Owner> RemoveOwner(int Id);
         public Task<Pet> RemovePet(int Id);
+        public Task<Boolean> Exists(int Id);
+        public Task<Owner> UpdateOwner(int Id, Owner request);
+        public Task<Pet> UpdatePet(int Id, Pet request);
+        public Task<Pet> AddPet(Pet request);
 
     }
 }

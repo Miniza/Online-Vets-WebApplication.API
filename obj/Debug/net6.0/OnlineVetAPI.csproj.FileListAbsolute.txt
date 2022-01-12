@@ -267,3 +267,6 @@ C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\Microsoft.EntityFramew
 C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\FluentValidation.dll
+C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
+C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll

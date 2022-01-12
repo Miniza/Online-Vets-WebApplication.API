@@ -1,6 +1,8 @@
-﻿namespace OnlineVetAPI.DomainModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace OnlineVetAPI.DomainModels
 {
-    public class AddNewOwner
+    public class UpdateOwner
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
