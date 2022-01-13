@@ -12,7 +12,7 @@ namespace OnlineVetAPI.DomainModels
         [Column(TypeName = "nvarchar(100)")]
         public string? LastName { get; set; }
         [Column]
-        public long MobileNumber { get; set; }
+        public string? MobileNumber { get; set; }
         [Column(TypeName = "nvarchar(100)")]
         public string? OwnerEmail { get; set; }
         [Column(TypeName = "nvarchar(100)")]

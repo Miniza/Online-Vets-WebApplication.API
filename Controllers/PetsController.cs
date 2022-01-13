@@ -44,7 +44,7 @@ namespace OnlineVetAPI.Controllers
         // PUT: api/Pets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPet(int id, [FromBody] UpdatePet request)
+        public async Task<IActionResult> PutPet(int id, [FromForm] UpdatePet request)
         {
             if (await appRepository.Exists(id))
             {
@@ -61,7 +61,8 @@ namespace OnlineVetAPI.Controllers
         // POST: api/Pets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Pet>> PostPet([FromBody] AddNewPet request)
+        public async Task<ActionResult<Pet>> PostPet([FromForm
+            ] AddNewPet request)
         {
             var newPet = await appRepository.AddPet(mapper.Map<DataModels.Pet>(request));
             return Ok(mapper.Map<Pet>(newPet));

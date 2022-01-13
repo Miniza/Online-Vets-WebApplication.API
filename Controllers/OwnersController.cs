@@ -41,8 +41,8 @@ namespace OnlineVetAPI.Controllers
         
         // PUT: api/Owners/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOwner(int id, [FromBody] UpdateOwner request)
+        [HttpPut("{id}")] 
+        public async Task<IActionResult> PutOwner(int id, [FromForm] UpdateOwner request)
         {
             if (await appRepository.Exists(id))
             {
@@ -58,7 +58,7 @@ namespace OnlineVetAPI.Controllers
         // POST: api/Owners
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
        [HttpPost]
-        public async Task<ActionResult<Owner>> PostOwner([FromBody] AddNewOwner  request)
+        public async Task<ActionResult<Owner>> PostOwner([FromForm] AddNewOwner  request)
         {
             var newOwner = await appRepository.AddOwner(mapper.Map<DataModels.Owner>(request));
             return Ok(mapper.Map<Owner>(newOwner));
