@@ -15,6 +15,7 @@ namespace OnlineVetAPI.Repositories
         public Task<Owner> UpdateOwner(int Id, Owner request);
         public Task<Pet> UpdatePet(int Id, Pet request);
         public Task<Pet> AddPet(Pet request);
+        public Task<bool> UpdateProfileImage(int Id, string ProfileImageUrl);
 
     }
 }

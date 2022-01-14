@@ -17,7 +17,7 @@ namespace OnlineVetAPI.Repositories
             var owner = await context.Owners.AddAsync(request);
             await context.SaveChangesAsync();
             return owner.Entity;
-        }
+        } 
 
         public async Task<Pet> AddPet(Pet request)
         {
@@ -97,6 +97,20 @@ namespace OnlineVetAPI.Repositories
                 return existingPet;
             }
             return null; 
+        }
+
+        public async Task<bool> UpdateProfileImage(int Id, string ProfileImageUrl)
+        {
+            var Owner = await context.Owners.FindAsync(Id);
+
+            if (Owner != null)
+            {
+                Owner.ProfileImageUrl = ProfileImageUrl;
+                await context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+
         }
     }
 }

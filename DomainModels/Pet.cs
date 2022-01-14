@@ -15,6 +15,7 @@ namespace OnlineVetAPI.DomainModels
         public string? PetBreed { get; set; }
         [Column]
         public DateTime DateOfBirth { get; set; }
+
         public  Owner Owner { get; set; }
     }
 }

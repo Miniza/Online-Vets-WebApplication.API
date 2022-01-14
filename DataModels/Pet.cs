@@ -16,7 +16,6 @@ namespace OnlineVetAPI.DataModels
         [Column]
         public DateTime DateOfBirth { get; set; }
 
-        //Navigation Models
         public  Owner Owner { get; set; }
     }
 }

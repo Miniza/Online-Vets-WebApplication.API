@@ -11,11 +11,13 @@ namespace OnlineVetAPI.Controllers
     {
         private readonly IAppRepository appRepository;
         private readonly IMapper mapper;
+        private readonly IImageRepository imageRepository;
 
-        public OwnersController(IAppRepository appRepository, IMapper mapper)
+        public OwnersController(IAppRepository appRepository, IMapper mapper, IImageRepository imageRepository)
         {
             this.appRepository = appRepository;
             this.mapper = mapper;
+            this.imageRepository = imageRepository;
         }
 
         // GET: api/Owners
@@ -77,6 +79,27 @@ namespace OnlineVetAPI.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> UploadProfile(int id, IFormFile profilepic)
+        {
+            //check if owner exists
+            if (await appRepository.Exists(id))
+            {
+                var fileName = Guid.NewGuid() + Path.GetExtension(profilepic.FileName);
+                //Upload image to local storage
+               var filePath = await imageRepository.Upload(profilepic,fileName);
+
+                //update the path (url) in the database 
+                if (await appRepository.UpdateProfileImage(id, filePath))
+                {
+                    return Ok(filePath);
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error Uploading image");
+            }
+            return NotFound();
+        }
+
 
     }
 }

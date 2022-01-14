@@ -9,5 +9,6 @@ namespace OnlineVetAPI.DomainModels
         public string? MobileNumber { get; set; }
         public string? OwnerEmail { get; set; }
         public string? Address { get; set; }
+        public string? ProfileImageUrl { get; set; }
     }
 }

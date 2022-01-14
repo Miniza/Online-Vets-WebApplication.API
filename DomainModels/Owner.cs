@@ -17,6 +17,8 @@ namespace OnlineVetAPI.DomainModels
         public string? OwnerEmail { get; set; }
         [Column(TypeName = "nvarchar(100)")]
         public string? Address { get; set; }
+        [Column]
+        public string? ProfileImageUrl { get; set; }
         public ICollection<Pet> Pets { get; set; }
     }
 }
