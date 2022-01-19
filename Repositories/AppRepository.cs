@@ -6,9 +6,8 @@ namespace OnlineVetAPI.Repositories
     public class AppRepository : IAppRepository
     {
         private readonly AppDBContext context;
-
         public AppRepository(AppDBContext context)
-        {
+        { 
             this.context = context;
         }
 

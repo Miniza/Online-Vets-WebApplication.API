@@ -13,6 +13,7 @@ namespace OnlineVetAPI.Controllers
         private readonly IMapper mapper;
         private readonly IImageRepository imageRepository;
 
+        //Dependency injection and field assignment
         public OwnersController(IAppRepository appRepository, IMapper mapper, IImageRepository imageRepository)
         {
             this.appRepository = appRepository;
@@ -24,20 +25,20 @@ namespace OnlineVetAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Owner>>> GetOwner()
         {
-            var owners =  await appRepository.GetOwnersAsync();
-            return Ok(mapper.Map<IEnumerable<Owner>>(owners));
+            var owners =  await appRepository.GetOwnersAsync(); //From DataModels Owner
+            return Ok(mapper.Map<IEnumerable<Owner>>(owners)); // To DomainModels Owner
         }
 
         // GET: api/Owners/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Owner>> GetOwner(int Id)
         {
-            var owner = await appRepository.GetOwnerAsync(Id);
+            var owner = await appRepository.GetOwnerAsync(Id); //From DataModels Owner through repository
             if (owner == null)
             {
                 return NotFound();
             }
-            return Ok(mapper.Map<Owner>(owner)); 
+            return Ok(mapper.Map<Owner>(owner));   //To DomainModels Owner
         }
        
         
@@ -46,8 +47,9 @@ namespace OnlineVetAPI.Controllers
         [HttpPut("{id}")] 
         public async Task<IActionResult> PutOwner(int id, [FromForm] UpdateOwner request)
         {
-            if (await appRepository.Exists(id))
+            if (await appRepository.Exists(id))  //Check if owner exists
             {
+               //create a var updated owner 
                var updatedOwner = await appRepository.UpdateOwner(id, mapper.Map<DataModels.Owner>(request));
                 if (updatedOwner != null)
                 {
@@ -92,7 +94,7 @@ namespace OnlineVetAPI.Controllers
 
                 //update the path (url) in the database 
                 if (await appRepository.UpdateProfileImage(id, filePath))
-                {
+                { 
                     return Ok(filePath);
                 }
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error Uploading image");

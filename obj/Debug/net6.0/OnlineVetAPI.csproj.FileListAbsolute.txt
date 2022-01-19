@@ -270,3 +270,4 @@ C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\Newtonsoft.Json.Bson.d
 C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\FluentValidation.dll
 C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
 C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Users\27672\source\repos\OnlineVetAPI\bin\Debug\net6.0\BCrypt.Net-Next.dll
