@@ -1,4 +1,5 @@
-﻿using OnlineVetAPI.DataModels;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineVetAPI.DataModels;
 
 namespace OnlineVetAPI.Repositories
 {
@@ -10,21 +11,21 @@ namespace OnlineVetAPI.Repositories
         {
             this.context = context;
         }
-        public User Create(User user)
+        public async Task<User> Create(User user)
         {
-            context.Users.Add(user);
-            user.Id = context.SaveChanges();
+            await context.Users.AddAsync(user);
+            user.Id = await context.SaveChangesAsync();
             return user;
         }
 
-        public User GetByEmail(string email)
+        public async Task<User> GetByEmail(string email)
         {
-            return context.Users.FirstOrDefault(u => u.Email == email);
+            return await context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public User GetById(int Id)
+        public async Task<User> GetById(int Id)
         {
-            return context.Users.FirstOrDefault(u => u.Id == Id);
+            return await context.Users.FirstOrDefaultAsync(u => u.Id == Id);
         }
     }
 }

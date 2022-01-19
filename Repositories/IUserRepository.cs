@@ -4,8 +4,8 @@ namespace OnlineVetAPI.Repositories
 {
     public interface IUserRepository
     {
-        User Create(User user);
-        User GetByEmail(string email);
-        User GetById(int Id);
+        public Task<User> Create(User user);
+        public Task<User> GetByEmail(string email);
+        public Task<User> GetById(int Id);
     }
 }

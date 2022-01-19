@@ -22,7 +22,7 @@ namespace OnlineVetAPI.Controllers
 
 
         [HttpPost("register")]
-        public IActionResult Register([FromForm] Register request)
+        public async Task <IActionResult> Register([FromForm] Register request)
         {
             var user = new User
             {
@@ -30,13 +30,13 @@ namespace OnlineVetAPI.Controllers
                 Email = request.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(request.Password)
             };
-            return Created("success", userRepository.Create(user));
+            return Created("success", await userRepository.Create(user));
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromForm] Login request)
+        public async Task<IActionResult> Login([FromForm] Login request)
         {
-            var user = userRepository.GetByEmail(request.Email);
+            var user = await userRepository.GetByEmail(request.Email);
 
             if (user == null)
                 return BadRequest(new { message = "Invalid Credentials" });
@@ -44,9 +44,9 @@ namespace OnlineVetAPI.Controllers
             if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
                 return BadRequest(new { message = "Invalid Credentials" });
 
-            var jwt = jwtService.GenerateToken(user.Id);
+            var jwt =  jwtService.GenerateToken(user.Id);
 
-            Response.Cookies.Append("jwt", jwt, new CookieOptions
+             Response.Cookies.Append("jwt", jwt, new CookieOptions
             {
                 HttpOnly = true
             });
@@ -56,7 +56,7 @@ namespace OnlineVetAPI.Controllers
 
         [HttpGet("user")]
 
-        public IActionResult User()
+        public async Task<IActionResult> User()
         {
             try
             {
@@ -66,7 +66,7 @@ namespace OnlineVetAPI.Controllers
 
                 int userId = int.Parse(token.Issuer);
 
-                var user = userRepository.GetById(userId);
+                var user = await userRepository.GetById(userId);
 
                 return Ok(user);
             }
@@ -78,7 +78,7 @@ namespace OnlineVetAPI.Controllers
         }
 
         [HttpPost("logout")]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
             Response.Cookies.Delete("jwt");
 
