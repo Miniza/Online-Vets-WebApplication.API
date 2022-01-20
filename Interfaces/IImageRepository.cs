@@ -1,4 +1,4 @@
-﻿namespace OnlineVetAPI.Repositories
+﻿namespace OnlineVetAPI.Interfaces
 {
     public interface IImageRepository
     {

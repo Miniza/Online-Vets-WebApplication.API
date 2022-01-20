@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineVetAPI.DataModels;
 using OnlineVetAPI.DomainModels;
 using OnlineVetAPI.Helpers;
-using OnlineVetAPI.Repositories;
+using OnlineVetAPI.Interfaces;
 
 namespace OnlineVetAPI.Controllers
 {
@@ -11,12 +11,12 @@ namespace OnlineVetAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IUserRepository userRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IJwtService jwtService;
 
-        public AuthController(IUserRepository userRepository, IJwtService jwtService)
+        public AuthController(IUnitOfWork unitOfWork, IJwtService jwtService)
         {
-            this.userRepository = userRepository;
+            this.unitOfWork = unitOfWork;
             this.jwtService = jwtService;
         }
 
@@ -30,13 +30,15 @@ namespace OnlineVetAPI.Controllers
                 Email = request.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(request.Password)
             };
-            return Created("success", await userRepository.Create(user));
+            await unitOfWork.SaveAsync();
+            return Created("success", await unitOfWork.UserRepository.Create(user));
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromForm] Login request)
         {
-            var user = await userRepository.GetByEmail(request.Email);
+            var user = await unitOfWork.UserRepository.GetByEmail(request.Email);
+            await unitOfWork.SaveAsync();
 
             if (user == null)
                 return BadRequest(new { message = "Invalid Credentials" });
@@ -66,7 +68,8 @@ namespace OnlineVetAPI.Controllers
 
                 int userId = int.Parse(token.Issuer);
 
-                var user = await userRepository.GetById(userId);
+                var user = await unitOfWork.UserRepository.GetById(userId);
+                await unitOfWork.SaveAsync();
 
                 return Ok(user);
             }

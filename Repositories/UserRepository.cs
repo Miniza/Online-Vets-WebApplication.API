@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineVetAPI.DataModels;
+using OnlineVetAPI.Interfaces;
 
 namespace OnlineVetAPI.Repositories
 {
@@ -14,7 +15,6 @@ namespace OnlineVetAPI.Repositories
         public async Task<User> Create(User user)
         {
             await context.Users.AddAsync(user);
-            user.Id = await context.SaveChangesAsync();
             return user;
         }
 

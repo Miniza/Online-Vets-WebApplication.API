@@ -1,4 +1,6 @@
-﻿namespace OnlineVetAPI.Repositories
+﻿using OnlineVetAPI.Interfaces;
+
+namespace OnlineVetAPI.Repositories
 {
     public class ImageRepository : IImageRepository
     {

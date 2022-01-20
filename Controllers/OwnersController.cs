@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OnlineVetAPI.DomainModels;
-using OnlineVetAPI.Repositories;
+using OnlineVetAPI.Interfaces;
 
 namespace OnlineVetAPI.Controllers
 {
@@ -9,14 +9,14 @@ namespace OnlineVetAPI.Controllers
     [ApiController]
     public class OwnersController : ControllerBase
     {
-        private readonly IAppRepository appRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
         private readonly IImageRepository imageRepository;
 
         //Dependency injection and field assignment
-        public OwnersController(IAppRepository appRepository, IMapper mapper, IImageRepository imageRepository)
+        public OwnersController(IUnitOfWork unitOfWork, IMapper mapper, IImageRepository imageRepository)
         {
-            this.appRepository = appRepository;
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
             this.imageRepository = imageRepository;
         }
@@ -25,7 +25,8 @@ namespace OnlineVetAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Owner>>> GetOwner()
         {
-            var owners =  await appRepository.GetOwnersAsync(); //From DataModels Owner
+            var owners =  await unitOfWork.AppRepository.GetOwnersAsync(); //From DataModels Owner
+            await unitOfWork.SaveAsync();
             return Ok(mapper.Map<IEnumerable<Owner>>(owners)); // To DomainModels Owner
         }
 
@@ -33,11 +34,12 @@ namespace OnlineVetAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Owner>> GetOwner(int Id)
         {
-            var owner = await appRepository.GetOwnerAsync(Id); //From DataModels Owner through repository
+            var owner = await unitOfWork.AppRepository.GetOwnerAsync(Id); //From DataModels Owner through repository
             if (owner == null)
             {
                 return NotFound();
             }
+            await unitOfWork.SaveAsync();
             return Ok(mapper.Map<Owner>(owner));   //To DomainModels Owner
         }
        
@@ -47,10 +49,11 @@ namespace OnlineVetAPI.Controllers
         [HttpPut("{id}")] 
         public async Task<IActionResult> PutOwner(int id, [FromForm] UpdateOwner request)
         {
-            if (await appRepository.Exists(id))  //Check if owner exists
+            if (await unitOfWork.AppRepository.Exists(id))  //Check if owner exists
             {
                //create a var updated owner 
-               var updatedOwner = await appRepository.UpdateOwner(id, mapper.Map<DataModels.Owner>(request));
+               var updatedOwner = await unitOfWork.AppRepository.UpdateOwner(id, mapper.Map<DataModels.Owner>(request));
+                await unitOfWork.SaveAsync();
                 if (updatedOwner != null)
                 {
                     return Ok(mapper.Map<Owner>(updatedOwner));
@@ -64,7 +67,8 @@ namespace OnlineVetAPI.Controllers
        [HttpPost]
         public async Task<ActionResult<Owner>> PostOwner([FromForm] AddNewOwner  request)
         {
-            var newOwner = await appRepository.AddOwner(mapper.Map<DataModels.Owner>(request));
+            var newOwner = await unitOfWork.AppRepository.AddOwner(mapper.Map<DataModels.Owner>(request));
+            await unitOfWork.SaveAsync();
             return Ok(mapper.Map<Owner>(newOwner));
         } 
        
@@ -73,7 +77,8 @@ namespace OnlineVetAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOwner(int id)
         {
-            var owner = await appRepository.RemoveOwner(id);
+            var owner = await unitOfWork.AppRepository.RemoveOwner(id);
+            await unitOfWork.SaveAsync();
             if (owner == null)
             {
                 return NotFound();
@@ -86,14 +91,14 @@ namespace OnlineVetAPI.Controllers
         public async Task<IActionResult> UploadProfile(int id, IFormFile profilepic)
         {
             //check if owner exists
-            if (await appRepository.Exists(id))
+            if (await unitOfWork.AppRepository.Exists(id))
             {
                 var fileName = Guid.NewGuid() + Path.GetExtension(profilepic.FileName);
                 //Upload image to local storage
                var filePath = await imageRepository.Upload(profilepic,fileName);
 
                 //update the path (url) in the database 
-                if (await appRepository.UpdateProfileImage(id, filePath))
+                if (await unitOfWork.AppRepository.UpdateProfileImage(id, filePath))
                 { 
                     return Ok(filePath);
                 }

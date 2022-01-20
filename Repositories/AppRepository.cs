@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineVetAPI.DataModels;
+using OnlineVetAPI.Interfaces;
 
 namespace OnlineVetAPI.Repositories
 {
@@ -14,14 +15,12 @@ namespace OnlineVetAPI.Repositories
         public async Task<Owner> AddOwner(Owner request)
         {
             var owner = await context.Owners.AddAsync(request);
-            await context.SaveChangesAsync();
             return owner.Entity;
         } 
 
         public async Task<Pet> AddPet(Pet request)
         {
             var pet = await context.Pets.AddAsync(request);
-            await context.SaveChangesAsync();
             return pet.Entity;
         }
 
@@ -54,7 +53,6 @@ namespace OnlineVetAPI.Repositories
         {
             var owner = await context.Owners.Include(b => b.Pets).FirstOrDefaultAsync(x => x.Id == Id);
             context.Owners.Remove(owner);
-            await context.SaveChangesAsync();
             return owner;
 
         }
@@ -63,7 +61,6 @@ namespace OnlineVetAPI.Repositories
         {
             var pet = await context.Pets.Include(b => b.Owner).FirstOrDefaultAsync(x => x.Id == Id);
             context.Pets.Remove(pet);
-            await context.SaveChangesAsync();
             return pet;
         }
 
@@ -77,7 +74,6 @@ namespace OnlineVetAPI.Repositories
                 existingOwner.MobileNumber = request.MobileNumber;
                 existingOwner.OwnerEmail = request.OwnerEmail;
                 existingOwner.Address = request.Address;
-                await context.SaveChangesAsync();
                 return existingOwner;
             }
             return null;
@@ -92,7 +88,6 @@ namespace OnlineVetAPI.Repositories
                 existingPet.PetType = request.PetType;
                 existingPet.PetBreed = request.PetBreed;
                 existingPet.DateOfBirth = request.DateOfBirth;
-                await context.SaveChangesAsync();
                 return existingPet;
             }
             return null; 
@@ -105,7 +100,6 @@ namespace OnlineVetAPI.Repositories
             if (Owner != null)
             {
                 Owner.ProfileImageUrl = ProfileImageUrl;
-                await context.SaveChangesAsync();
                 return true;
             }
             return false;

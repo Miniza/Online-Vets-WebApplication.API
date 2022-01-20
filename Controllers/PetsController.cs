@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OnlineVetAPI.DomainModels;
-using OnlineVetAPI.Repositories;
+using OnlineVetAPI.Interfaces;
 
 namespace OnlineVetAPI.Controllers
 {
@@ -9,12 +9,12 @@ namespace OnlineVetAPI.Controllers
     [ApiController]
     public class PetsController : ControllerBase
     {
-        private readonly IAppRepository appRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public PetsController(IAppRepository appRepository, IMapper mapper)
+        public PetsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.appRepository = appRepository;
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
        
@@ -23,7 +23,8 @@ namespace OnlineVetAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pet>>> GetPet()
         {
-            var pets = await appRepository.GetPetsAsync();
+            var pets = await unitOfWork.AppRepository.GetPetsAsync();
+            await unitOfWork.SaveAsync();
             return Ok(mapper.Map<IEnumerable<Pet>>(pets));
             
         }
@@ -32,7 +33,8 @@ namespace OnlineVetAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Pet>> GetPet(int id)
         {
-            var pet = await appRepository.GetPetAsync(id);
+            var pet = await unitOfWork.AppRepository.GetPetAsync(id);
+            await unitOfWork.SaveAsync();
 
             if (pet == null)
             {
@@ -46,9 +48,10 @@ namespace OnlineVetAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPet(int id, [FromForm] UpdatePet request)
         {
-            if (await appRepository.Exists(id))
+            if (await unitOfWork.AppRepository.Exists(id))
             {
-                var updatedPet = await appRepository.UpdatePet(id, mapper.Map<DataModels.Pet>(request));
+                var updatedPet = await unitOfWork.AppRepository.UpdatePet(id, mapper.Map<DataModels.Pet>(request));
+                await unitOfWork.SaveAsync();
                 if (updatedPet != null)
                 {
                     return Ok(mapper.Map<Pet>(updatedPet));
@@ -64,7 +67,8 @@ namespace OnlineVetAPI.Controllers
         public async Task<ActionResult<Pet>> PostPet([FromForm
             ] AddNewPet request)
         {
-            var newPet = await appRepository.AddPet(mapper.Map<DataModels.Pet>(request));
+            var newPet = await unitOfWork.AppRepository.AddPet(mapper.Map<DataModels.Pet>(request));
+            await unitOfWork.SaveAsync();
             return Ok(mapper.Map<Pet>(newPet));
         }
         
@@ -72,7 +76,8 @@ namespace OnlineVetAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePet(int id)
         {
-            var pet = await appRepository.RemovePet(id);
+            var pet = await unitOfWork.AppRepository.RemovePet(id);
+            await unitOfWork.SaveAsync();
             if (pet == null)
             {
                 return NotFound();

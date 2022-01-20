@@ -1,6 +1,6 @@
 ﻿using OnlineVetAPI.DataModels;
 
-namespace OnlineVetAPI.Repositories
+namespace OnlineVetAPI.Interfaces
 {
     public interface IAppRepository 
     {
