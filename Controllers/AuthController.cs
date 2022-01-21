@@ -30,8 +30,10 @@ namespace OnlineVetAPI.Controllers
                 Email = request.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(request.Password)
             };
+            var savedUser =await unitOfWork.UserRepository.Create(user);
             await unitOfWork.SaveAsync();
-            return Created("success", await unitOfWork.UserRepository.Create(user));
+            return Created("success", savedUser);
+            
         }
 
         [HttpPost("login")]
