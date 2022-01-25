@@ -11,9 +11,12 @@ namespace OnlineVetAPI.Repositories
         {
             this.context = context;
         }
-        public IAppRepository AppRepository => new AppRepository(context);
 
         public IUserRepository UserRepository => new UserRepository(context);
+
+        public IOwnerRepository OwnerRepository => new OwnerRepository(context);
+
+        public IPetRepository PetRepository => new PetRepository(context);
 
         public async Task<bool> SaveAsync()
         {

@@ -23,7 +23,7 @@ namespace OnlineVetAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pet>>> GetPet()
         {
-            var pets = await unitOfWork.AppRepository.GetPetsAsync();
+            var pets = await unitOfWork.PetRepository.GetPetsAsync();
             await unitOfWork.SaveAsync();
             return Ok(mapper.Map<IEnumerable<Pet>>(pets));
             
@@ -33,7 +33,7 @@ namespace OnlineVetAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Pet>> GetPet(int id)
         {
-            var pet = await unitOfWork.AppRepository.GetPetAsync(id);
+            var pet = await unitOfWork.PetRepository.GetPetAsync(id);
             await unitOfWork.SaveAsync();
 
             if (pet == null)
@@ -48,9 +48,9 @@ namespace OnlineVetAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPet(int id, [FromForm] UpdatePet request)
         {
-            if (await unitOfWork.AppRepository.Exists(id))
+            if (await unitOfWork.PetRepository.Exists(id))
             {
-                var updatedPet = await unitOfWork.AppRepository.UpdatePet(id, mapper.Map<DataModels.Pet>(request));
+                var updatedPet = await unitOfWork.PetRepository.UpdatePet(id, mapper.Map<DataModels.Pet>(request));
                 await unitOfWork.SaveAsync();
                 if (updatedPet != null)
                 {
@@ -67,7 +67,7 @@ namespace OnlineVetAPI.Controllers
         public async Task<ActionResult<Pet>> PostPet([FromForm
             ] AddNewPet request)
         {
-            var newPet = await unitOfWork.AppRepository.AddPet(mapper.Map<DataModels.Pet>(request));
+            var newPet = await unitOfWork.PetRepository.AddPet(mapper.Map<DataModels.Pet>(request));
             await unitOfWork.SaveAsync();
             return Ok(mapper.Map<Pet>(newPet));
         }
@@ -76,7 +76,7 @@ namespace OnlineVetAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePet(int id)
         {
-            var pet = await unitOfWork.AppRepository.RemovePet(id);
+            var pet = await unitOfWork.PetRepository.RemovePet(id);
             await unitOfWork.SaveAsync();
             if (pet == null)
             {
