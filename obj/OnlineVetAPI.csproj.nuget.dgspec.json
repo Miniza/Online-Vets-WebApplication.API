@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\27672\\source\\repos\\OnlineVetAPI\\OnlineVetAPI.csproj": {}
+    "C:\\Users\\minen\\source\\repos\\Miniza\\Online-Vets-WebApplication.API\\OnlineVetAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\27672\\source\\repos\\OnlineVetAPI\\OnlineVetAPI.csproj": {
+    "C:\\Users\\minen\\source\\repos\\Miniza\\Online-Vets-WebApplication.API\\OnlineVetAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\27672\\source\\repos\\OnlineVetAPI\\OnlineVetAPI.csproj",
+        "projectUniqueName": "C:\\Users\\minen\\source\\repos\\Miniza\\Online-Vets-WebApplication.API\\OnlineVetAPI.csproj",
         "projectName": "OnlineVetAPI",
-        "projectPath": "C:\\Users\\27672\\source\\repos\\OnlineVetAPI\\OnlineVetAPI.csproj",
-        "packagesPath": "C:\\Users\\27672\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\27672\\source\\repos\\OnlineVetAPI\\obj\\",
+        "projectPath": "C:\\Users\\minen\\source\\repos\\Miniza\\Online-Vets-WebApplication.API\\OnlineVetAPI.csproj",
+        "packagesPath": "C:\\Users\\minen\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\minen\\source\\repos\\Miniza\\Online-Vets-WebApplication.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\27672\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\minen\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,6 +55,10 @@
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[10.3.6, )"
+            },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[10.0.1, )"
             },
             "Microsoft.AspNetCore.Cors": {
               "target": "Package",
@@ -113,7 +117,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

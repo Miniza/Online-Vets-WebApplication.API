@@ -6,7 +6,7 @@ namespace OnlineVetAPI.DataModels
     public class Pet
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; private set; }
         [Column(TypeName = "nvarchar(100)")]
         public string? PetName { get; set; }
         [Column(TypeName = "nvarchar(100)")]
